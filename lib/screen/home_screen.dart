@@ -30,7 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _fetchUsers() async {
-    List<Map<String, dynamic>> userList = await DBHelper.getData();
+    List<Map<String, dynamic>> userList = await DBHelper.instance.getData();
+    // List<Map<String, dynamic>> userList = await DBHelper.getData();
     setState(() {
       dataList = userList;
     });
@@ -39,18 +40,18 @@ class _HomeScreenState extends State<HomeScreen> {
   void _saveData() async {
     final name = _nameController.text;
     final age = int.tryParse(_ageController.text) ?? 0;
-    int insertId = await DBHelper.insertUser(name, age);
+    int insertId = await DBHelper.instance.insertUser(name, age);
     log('$insertId');
 
-    List<Map<String, dynamic>> updateData = await DBHelper.getData();
+    List<Map<String, dynamic>> updateData = await DBHelper.instance.getData();
     setState(() {
       dataList = updateData;
     });
   }
 
   void _delete(int dataId) async {
-    int id = await DBHelper.deleteData(dataId);
-    List<Map<String, dynamic>> updateData = await DBHelper.getData();
+    int id = await DBHelper.instance.deleteData(dataId);
+    List<Map<String, dynamic>> updateData = await DBHelper.instance.getData();
     setState(() {
       dataList = updateData;
     });

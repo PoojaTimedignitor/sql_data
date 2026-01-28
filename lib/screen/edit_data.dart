@@ -24,7 +24,7 @@ class _EditDataState extends State<EditData> {
   }
 
   void fetchData()async{
-    Map<String, dynamic>? data =  await DBHelper.getSingleData(widget.id);
+    Map<String, dynamic>? data =  await DBHelper.instance.getSingleData(widget.id);
     if(data != null){
       _nameController.text = data['name'];
       _ageController.text = data['age'].toString();
@@ -36,7 +36,7 @@ class _EditDataState extends State<EditData> {
       'name' : _nameController.text,
       'age' : _ageController.text,
     };
-    int id = await DBHelper.updateData(widget.id, data);
+    int id = await DBHelper.instance.updateData(widget.id, data);
     log('Update $id');
     Navigator.pop(context, true);
   }
@@ -83,9 +83,6 @@ class _EditDataState extends State<EditData> {
                       backgroundColor: Colors.blue,
                       foregroundColor: Colors.black),
                   onPressed: () {
-                    // setState(() {
-                    //   _updateData(context);
-                    // });
                     _updateData(context);
                     _nameController.clear();
                     _ageController.clear();
