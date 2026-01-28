@@ -91,6 +91,11 @@ class _EditDataState extends State<EditData> {
                       onPressed: () {
                         //_updateData(context);
                         provider.updateData(context, widget.id);
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text('Data Update Successfully'),
+                          backgroundColor: Colors.green,
+                        ));
                         provider.nameController.clear();
                         provider.ageController.clear();
                       },
