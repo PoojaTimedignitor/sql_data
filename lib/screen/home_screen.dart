@@ -132,8 +132,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Row(
+                            // mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(provider.dataList[index]['firstName']),
+                              const SizedBox(width: 5,),
                               Text(provider.dataList[index]['lastName']),
                             ],
                           ),
