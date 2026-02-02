@@ -7,13 +7,15 @@ class SqlDbProvider extends ChangeNotifier{
 
   List<Map<String, dynamic>> dataList = [];
 
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
 
-  TextEditingController get nameController => _nameController;
+  TextEditingController get firstNameController => _firstNameController;
+  TextEditingController get lastNameController => _lastNameController;
   TextEditingController get ageController => _ageController;
 
-  void setFetchUsers() async {
+  void fetchUsers() async {
   // void _fetchUsers() async {
     List<Map<String, dynamic>> userList = await DBHelper.instance.getData();                         /// singleton
     // List<Map<String, dynamic>> userList = await DBHelper.getData();
@@ -24,11 +26,12 @@ class SqlDbProvider extends ChangeNotifier{
 
   }
 
-  void setSaveData() async {
+  void saveData() async {
   // void _saveData() async {
-    final name = _nameController.text;
+    final firstName = _firstNameController.text;
+    final lastName = _lastNameController.text;
     final age = int.tryParse(_ageController.text) ?? 0;
-    int insertId = await DBHelper.instance.insertUser(name, age);
+    int insertId = await DBHelper.instance.insertUser(firstName, lastName, age);
     log('$insertId');
 
     List<Map<String, dynamic>> updateData = await DBHelper.instance.getData();
@@ -38,7 +41,7 @@ class SqlDbProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setDelete(int dataId) async {
+  void deleteData(int dataId) async {
   // void _delete(int dataId) async {
     int id = await DBHelper.instance.deleteData(dataId);
     List<Map<String, dynamic>> updateData = await DBHelper.instance.getData();
@@ -55,7 +58,8 @@ class SqlDbProvider extends ChangeNotifier{
   // void fetchData()async{
     Map<String, dynamic>? data =  await DBHelper.instance.getSingleData(id);
     if(data != null){
-      _nameController.text = data['name'];
+      _firstNameController.text = data['firstName'];
+      _lastNameController.text = data['lastName'];
       _ageController.text = data['age'].toString();
     }
   }
@@ -63,7 +67,8 @@ class SqlDbProvider extends ChangeNotifier{
   void updateData(BuildContext context, int userId)async{
   // void updateData(BuildContext context)async{
     Map<String, dynamic> data = {
-      'name' : _nameController.text,
+      'firstName' : _firstNameController.text,
+      'lastName' : _lastNameController.text,
       'age' : _ageController.text,
     };
     int id = await DBHelper.instance.updateData(userId, data);
@@ -74,7 +79,8 @@ class SqlDbProvider extends ChangeNotifier{
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     _ageController.dispose();
     super.dispose();
   }

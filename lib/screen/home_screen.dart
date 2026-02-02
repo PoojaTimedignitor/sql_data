@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     //_fetchUsers();
    WidgetsBinding.instance.addPostFrameCallback((_){
-     Provider.of<SqlDbProvider>(context, listen: false).setFetchUsers();
+     Provider.of<SqlDbProvider>(context, listen: false).fetchUsers();
    });
     super.initState();
   }
@@ -70,15 +70,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TextFormField(
-                      controller: provider.nameController,
+                      controller: provider.firstNameController,
                       // controller: _nameController,
                       decoration: InputDecoration(
-                          hintText: 'Enter name',
+                          hintText: 'Enter first name',
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12))),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 15,
+                    ),
+                    TextFormField(
+                      controller: provider.lastNameController,
+                      // controller: _nameController,
+                      decoration: InputDecoration(
+                          hintText: 'Enter last name',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12))),
+                    ),
+                    const SizedBox(
+                      height: 15,
                     ),
                     TextFormField(
                       controller: provider.ageController,
@@ -98,14 +109,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                          // setState(() {
                            // _saveData();
-                          provider.setSaveData();
+                          provider.saveData();
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
                               content: Text('Data Add Successfully'),
                               backgroundColor: Colors.green,
                             ));
                          // });
-                          provider.nameController.clear();
+                          provider.firstNameController.clear();
+                          provider.lastNameController.clear();
                           provider.ageController.clear();
                         },
                         child: const Text('Save Data')),
@@ -119,7 +131,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: provider.dataList.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text(provider.dataList[index]['name']),
+                          title: Row(
+                            children: [
+                              Text(provider.dataList[index]['firstName']),
+                              Text(provider.dataList[index]['lastName']),
+                            ],
+                          ),
                           subtitle: Text(provider.dataList[index]['age'].toString()),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -134,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
 
                                     if (result == true) {
-                                      provider.setFetchUsers();
+                                      provider.fetchUsers();
                                       // provider._fetchUsers();
                                     }
                                   },
@@ -144,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     //setState(() {
                                      // _delete(dataList[index]['id']);
                                    // });
-                                    provider.setDelete(provider.dataList[index]['id']);
+                                    provider.deleteData(provider.dataList[index]['id']);
                                   },
                                   icon: const Icon(Icons.delete, color: Colors.red,))
                             ],

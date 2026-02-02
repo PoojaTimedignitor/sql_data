@@ -26,16 +26,17 @@ class DBHelper {
     await db.execute('''
          CREATE TABLE IF NOT EXISTS users(
          id INTEGER PRIMARY KEY AUTOINCREMENT,
-         name TEXT,
+         firstName TEXT,
+         lastName TEXT,
          age INTEGER
          )
         ''');
   }
 
-   Future<int> insertUser(String name, int age) async {
+   Future<int> insertUser(String firstName, String lastName, int age) async {
     final db = await database;                                                                  /// singleton
     // final db = await _initDatabase();
-    final data = {'name': name, 'age': age};
+    final data = {'firstName': firstName, 'lastName': lastName, 'age': age};
     return await db.insert('users', data);
   }
 

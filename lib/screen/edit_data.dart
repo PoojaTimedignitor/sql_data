@@ -64,9 +64,19 @@ class _EditDataState extends State<EditData> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextFormField(
-                    controller: provider.nameController,
+                    controller: provider.firstNameController,
                     decoration: InputDecoration(
-                        hintText: 'Enter name',
+                        hintText: 'Enter first name',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12))),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    controller: provider.lastNameController,
+                    decoration: InputDecoration(
+                        hintText: 'Enter last name',
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12))),
                   ),
@@ -96,7 +106,8 @@ class _EditDataState extends State<EditData> {
                           content: Text('Data Update Successfully'),
                           backgroundColor: Colors.green,
                         ));
-                        provider.nameController.clear();
+                        provider.firstNameController.clear();
+                        provider.lastNameController.clear();
                         provider.ageController.clear();
                       },
                       child: const Text('Update Data')),
